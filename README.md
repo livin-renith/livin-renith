@@ -29,12 +29,14 @@
 ## 📊 GitHub Analytics
 
 <div align="center">
-  <img height="165" src="https://github-readme-stats.vercel.app/api?username=livin-renith&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&include_all_commits=true&bg_color=0D1117&title_color=6366F1&icon_color=22D3EE&text_color=c9d1d9" />
-  <img height="165" src="https://github-readme-streak-stats.herokuapp.com/?user=livin-renith&theme=tokyonight&hide_border=true&background=0D1117&ring=6366F1&fire=22D3EE&currStreakLabel=6366F1" />
+  <img height="165" src="https://github-readme-stats-fast.vercel.app/api?username=livin-renith&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&include_all_commits=true&bg_color=0D1117&title_color=6366F1&icon_color=22D3EE&text_color=c9d1d9" />
+  <img height="165" src="https://streak-stats.demolab.com/?user=livin-renith&theme=tokyonight&hide_border=true&background=0D1117&ring=6366F1&fire=22D3EE&currStreakLabel=6366F1" />
 </div>
 
+> 💡 These cards load from free community-hosted services, so they can occasionally go down. If any card ever shows broken again, see **Setup Notes** at the bottom for the permanent fix.
+
 <div align="center">
-  <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=livin-renith&layout=compact&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=6366F1&text_color=c9d1d9&langs_count=10" />
+  <img height="165" src="https://github-readme-stats-fast.vercel.app/api/top-langs/?username=livin-renith&layout=compact&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=6366F1&text_color=c9d1d9&langs_count=10" />
   <img height="165" src="https://github-profile-trophy.vercel.app/?username=livin-renith&theme=tokyonight&no-frame=true&no-bg=true&margin-w=8&row=2&column=3" />
 </div>
 
@@ -90,10 +92,10 @@
 <div align="center">
 
 <a href="https://github.com/livin-renith/smart-parking">
-  <img width="48%" src="https://github-readme-stats.vercel.app/api/pin/?username=livin-renith&repo=smart-parking&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=6366F1&icon_color=22D3EE&text_color=c9d1d9" />
+  <img width="48%" src="https://github-readme-stats-fast.vercel.app/api/pin/?username=livin-renith&repo=smart-parking&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=6366F1&icon_color=22D3EE&text_color=c9d1d9" />
 </a>
 <a href="https://github.com/livin-renith/shopez-ecommerce">
-  <img width="48%" src="https://github-readme-stats.vercel.app/api/pin/?username=livin-renith&repo=shopez-ecommerce&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=6366F1&icon_color=22D3EE&text_color=c9d1d9" />
+  <img width="48%" src="https://github-readme-stats-fast.vercel.app/api/pin/?username=livin-renith&repo=shopez-ecommerce&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=6366F1&icon_color=22D3EE&text_color=c9d1d9" />
 </a>
 
 </div>
@@ -117,3 +119,62 @@
 </p>
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:22D3EE,100:6366F1&height=100&section=footer" width="100%"/>
+
+<br>
+
+## ⚙️ Setup Notes
+
+<details>
+<summary><b>1. Enable the Commit Graph snake animation (one-time, ~2 minutes)</b></summary>
+
+<br>
+
+1. In your `livin-renith/livin-renith` repo, go to **Settings → Secrets and variables → Actions** (no secret needed, GitHub's default token works).
+2. Create a file at `.github/workflows/snake.yml` with:
+
+```yaml
+name: Generate Snake
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Platane/snk@v3
+        with:
+          github_user_name: livin-renith
+          outputs: |
+            dist/github-contribution-grid-snake.svg
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+      - uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+3. Commit and push — the Action runs automatically and creates an `output` branch with the SVG. The snake image in this README will start rendering within a few minutes.
+
+</details>
+
+<details>
+<summary><b>2. If any stats card ever shows broken again</b></summary>
+
+<br>
+
+The stats/streak/top-language cards above use free, community-hosted services (`github-readme-stats-fast.vercel.app` and `streak-stats.demolab.com`). These are reliable but occasionally go down since they're shared by thousands of profiles. If that happens:
+
+- Wait a few minutes and refresh — it's usually a temporary blip.
+- For a permanent fix, self-host your own copy on Vercel's free tier (takes ~5 minutes): fork [anuraghazra/github-readme-stats](https://github.com/anuraghazra/github-readme-stats), deploy it to your own Vercel account, then swap the domain in this README for your own `*.vercel.app` URL.
+
+</details>
