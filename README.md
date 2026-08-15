@@ -124,13 +124,17 @@
 
 ## ⚙️ Setup Notes
 
-<details>
-<summary><b>1. Enable the Commit Graph snake animation (one-time, ~2 minutes)</b></summary>
+<details open>
+<summary><b>1. Enable the Commit Graph snake animation (one-time, ~3 minutes)</b></summary>
 
 <br>
 
-1. In your `livin-renith/livin-renith` repo, go to **Settings → Secrets and variables → Actions** (no secret needed, GitHub's default token works).
-2. Create a file at `.github/workflows/snake.yml` with:
+A 404 on `github-contribution-grid-snake.svg` almost always means the `output` branch was never created — which happens when the workflow's `GITHUB_TOKEN` doesn't have write access by default. Fix it in this order:
+
+**Step 1 — Give the workflow permission to push:**
+Go to `livin-renith/livin-renith` → **Settings → Actions → General → Workflow permissions**, select **"Read and write permissions"**, then **Save**. This is the #1 cause of the branch never appearing.
+
+**Step 2 — Use this workflow** at `.github/workflows/snake.yml` (covers both `main` and `master` default branches, and pins stable versions):
 
 ```yaml
 name: Generate Snake
@@ -142,6 +146,7 @@ on:
   push:
     branches:
       - main
+      - master
 
 jobs:
   generate:
@@ -149,12 +154,14 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - uses: Platane/snk@v3
+      - uses: Platane/snk/svg-only@v3
         with:
           github_user_name: livin-renith
           outputs: |
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: output
@@ -163,7 +170,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-3. Commit and push — the Action runs automatically and creates an `output` branch with the SVG. The snake image in this README will start rendering within a few minutes.
+**Step 3 — Trigger it manually** (don't wait for the schedule): go to the **Actions** tab → **Generate Snake** workflow → **Run workflow**. Watch the run — if the last step fails, click into it; a "Permission denied" or 403 there confirms Step 1 wasn't applied yet.
+
+**Step 4 — Verify:** once the run shows a green check, an `output` branch should appear in the branch dropdown of your repo, containing `dist/github-contribution-grid-snake.svg`. Reload your profile page (or the raw URL below) — it should no longer 404:
+`https://raw.githubusercontent.com/livin-renith/livin-renith/output/github-contribution-grid-snake.svg`
 
 </details>
 
